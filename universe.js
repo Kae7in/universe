@@ -1,5 +1,7 @@
 ether = new p5();
 
+
+
 class Mass {
   constructor(name, x, y, radius, mass) {
       this.name = name;
@@ -12,7 +14,9 @@ class Mass {
   }
 
   draw() {
-    circle(this.pos.x, this.pos.y, this.radius);
+    circle((this.pos.x * scale) + (dim / 2),
+           (this.pos.y * scale) + (dim / 2),
+           (this.radius * scale) * 300000);
   }
 
   updateForce() {
@@ -32,11 +36,12 @@ class Mass {
       let force = G*m1*m2 / Math.pow(r, 2);
       let force_x = force * -r_hat[0];
       let force_y = force * -r_hat[1];
-      print(force_y);
       deltaV_x += force_x * delta_t / this.mass
       deltaV_y += force_y * delta_t / this.mass
     }
 
+    print(this.vel.x);
+    print(this.vel.y);
     this.vel.x += deltaV_x;
     this.vel.y += deltaV_y;
   }
@@ -51,8 +56,8 @@ class Mass {
   }
 
   unitDistance(other) {
-    return [(this.pos.x - other.pos.x) / this.distance(other),
-            (this.pos.y - other.pos.y) / this.distance(other)];
+    return [this.pos.x - other.pos.x / this.distance(other),
+            this.pos.y - other.pos.y / this.distance(other)];
   }
 }
 
@@ -60,27 +65,29 @@ class Mass {
 
 let t = 0;
 let fr = 30;
+const scale = 1 / Math.pow(10, 9);  // in meters
 let delta_t = 1 / fr;
 const G = 6.674 * Math.pow(10, -11);
+const dim = 1000;
+let universe = [
+  HelloWorld = new Mass("Earth", 0, -152 * Math.pow(10, 9), 3958.8, 5.972 * Math.pow(10, 24)),
+  BrendanWorld = new Mass("Sun", 0, 0, 432170, 1.989 * Math.pow(10, 30))
+];
+HelloWorld.vel.x = 30000 * 86400;
 
-var HelloWorld = new Mass("HelloWorld", 100, 100, 10, Math.pow(10, 12));
-HelloWorld.vel.x = 80;
-var DavidWorld = new Mass("DavidWorld", 200, 200, 20, Math.pow(10, 15.2));
-DavidWorld.vel.x = 60;
-var BrendanWorld = new Mass("BrendanWorld", 500, 500, 100, Math.pow(10, 16));
 
-let universe = [HelloWorld, DavidWorld, BrendanWorld];
 
 function setup() {
   frameRate(fr);
-  createCanvas(1000, 1000);
-  // noLoop();
+  createCanvas(dim, dim);
 }
+
+
 
 function draw() {
   background(230);
   HelloWorld.draw();
-  DavidWorld.draw();
+  // DavidWorld.draw();
   BrendanWorld.draw();
 
   print("\nTime: " + t);
@@ -90,12 +97,4 @@ function draw() {
   for (var key in universe) { universe[key].updateForce(); }
   // Update positions
   for (var key in universe) { universe[key].updatePosition(); }
-}
-
-function mousePressed() {
-  // t += 1 / frameCount;
-  // HelloWorld.update();
-  // loop();
-
-  print(HelloWorld.distance(DavidWorld));
 }
