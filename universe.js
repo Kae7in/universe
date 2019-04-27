@@ -21,8 +21,8 @@ class Mass {
 
   updateForce() {
     print(this.name);
-    let deltaV_x = 0;
-    let deltaV_y = 0;
+    this.accel.x = 0;
+    this.accel.y = 0;
 
     var i;
     for (i = 0; i < universe.length; i++) {
@@ -32,18 +32,18 @@ class Mass {
       let m1 = this.mass;
       let m2 = obj.mass;
       let r = this.distance(obj);
-      let r_hat = this.unitDistance(obj);
       let force = G*m1*m2 / Math.pow(r, 2);
+      let r_hat = this.unitDistance(obj);
       let force_x = force * -r_hat[0];
       let force_y = force * -r_hat[1];
-      deltaV_x += force_x * delta_t / this.mass
-      deltaV_y += force_y * delta_t / this.mass
+      this.accel.x += force_x / this.mass
+      this.accel.y += force_y / this.mass
     }
 
     print(this.vel.x);
     print(this.vel.y);
-    this.vel.x += deltaV_x;
-    this.vel.y += deltaV_y;
+    this.vel.x += this.accel.x * delta_t;
+    this.vel.y += this.accel.y * delta_t;
   }
 
   updatePosition() {
@@ -64,9 +64,9 @@ class Mass {
 
 
 let t = 0;
-let fr = 30;
+let fr = 60;
 const scale = 1 / Math.pow(10, 9);  // in meters
-let delta_t = 1 / fr;
+let delta_t = 1 / 30;
 const G = 6.674 * Math.pow(10, -11);
 const dim = 1000;
 let universe = [
