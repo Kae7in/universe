@@ -74,20 +74,24 @@ class Mass {
 
 
 let t = 0;
-let fr = 30;
+let fr = 60;
 const scale = 1 / Math.pow(10, 9);  // in meters
 let delta_t = 86140;
 const G = 6.67408 * Math.pow(10, -11);
-const dim = 1000;
+const dim = 1500;
 let universe = [
   Sun = new Mass("Sun", 0, 0, 695.51 * Math.pow(10, 5), 1.989 * Math.pow(10, 30)),
-  Mercury = new Mass("Mercury", 0, 57.91 * Math.pow(10, 9), 2.4397 * Math.pow(10, 6), 3.285 * Math.pow(10, 23)),
+  Mercury = new Mass("Mercury", 0, -57.91 * Math.pow(10, 9), 2.4397 * Math.pow(10, 6), 3.285 * Math.pow(10, 23)),
+  Venus = new Mass("Venus", 0, -108.2 * Math.pow(10, 9), 6.0518 * Math.pow(10, 6), 4.867 * Math.pow(10, 24)),
   Earth = new Mass("Earth", 0, -152 * Math.pow(10, 9), 6.371 * Math.pow(10, 6), 5.972 * Math.pow(10, 24)),
-  Mars = new Mass("Mars", 0, -227.9 * Math.pow(10, 9), 3.3895 * Math.pow(10, 6), 6.39 * Math.pow(10, 23))
+  Mars = new Mass("Mars", 0, -227.9 * Math.pow(10, 9), 3.3895 * Math.pow(10, 6), 6.39 * Math.pow(10, 23)),
+  Jupiter = new Mass("Jupiter", 0, -778.5 * Math.pow(10, 9), 69.911 * Math.pow(10, 6), 1.898 * Math.pow(10, 27))
 ];
-Earth.vel.x = 30000;
 Mercury.vel.x = 47400;
+Venus.vel.x = 35000;
+Earth.vel.x = 30000;
 Mars.vel.x = 24000;
+Jupiter.vel.x = 13100;
 
 
 
@@ -106,9 +110,13 @@ function draw() {
   fill(c);
   Sun.draw();
 
-  c = color("brown");
+  c = color("grey");
   fill(c);
   Mercury.draw();
+
+  c = color("brown");
+  fill(c);
+  Venus.draw();
 
   c = color('blue');
   fill(c);
@@ -117,6 +125,10 @@ function draw() {
   c = color('red');
   fill(c);
   Mars.draw();
+
+  c = color('orange');
+  fill(c);
+  Jupiter.draw();
 
   print(`Days: ${t / 86140}`);
   t += delta_t;
