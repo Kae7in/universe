@@ -13,10 +13,21 @@ class Mass {
       this.accel = createVector(0, 0);
   }
 
-  draw() {
-    circle((this.pos.x * scale) + (dim / 2),
-           (this.pos.y * scale) + (dim / 2),
-           this.radius * scale * 1000);
+  draw(displayText = false) {
+    let scaledXpos = this.pos.x * scale + dim / 2;
+    let scaledYpos = this.pos.y * scale + dim / 2;
+    let scaledRadius = this.radius * scale * 1000;
+
+    circle(scaledXpos,
+           scaledYpos,
+           scaledRadius);
+
+    if (displayText) {
+      textSize(8);
+      text(this.name,
+        scaledXpos - this.name.length * 2,
+        scaledYpos + scaledRadius + 5);
+    }
   }
 
   updateForce() {
@@ -101,7 +112,7 @@ function draw() {
 
   c = color('blue');
   fill(c);
-  Earth.draw();
+  Earth.draw(displayText = true);
 
   c = color('red');
   fill(c);
