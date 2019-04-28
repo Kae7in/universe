@@ -16,7 +16,7 @@ class Mass {
   draw() {
     circle((this.pos.x * scale) + (dim / 2),
            (this.pos.y * scale) + (dim / 2),
-           this.radius * scale * 100);
+           this.radius * scale * 1000);
   }
 
   updateForce() {
@@ -63,18 +63,20 @@ class Mass {
 
 
 let t = 0;
-let fr = 60;
+let fr = 30;
 const scale = 1 / Math.pow(10, 9);  // in meters
 let delta_t = 86140;
 const G = 6.67408 * Math.pow(10, -11);
 const dim = 1000;
 let universe = [
-  Sun = new Mass("Sun", 0, 0, 695.51 * Math.pow(10, 6), 1.989 * Math.pow(10, 30)),
+  Sun = new Mass("Sun", 0, 0, 695.51 * Math.pow(10, 5), 1.989 * Math.pow(10, 30)),
+  Mercury = new Mass("Mercury", 0, 57.91 * Math.pow(10, 9), 2.4397 * Math.pow(10, 6), 3.285 * Math.pow(10, 23)),
   Earth = new Mass("Earth", 0, -152 * Math.pow(10, 9), 6.371 * Math.pow(10, 6), 5.972 * Math.pow(10, 24)),
   Mars = new Mass("Mars", 0, -227.9 * Math.pow(10, 9), 3.3895 * Math.pow(10, 6), 6.39 * Math.pow(10, 23))
 ];
-Mars.vel.x = 24000;
 Earth.vel.x = 30000;
+Mercury.vel.x = 47400;
+Mars.vel.x = 24000;
 
 
 
@@ -87,9 +89,23 @@ function setup() {
 
 function draw() {
   background(230);
-  Mars.draw();
-  Earth.draw();
+  noStroke();
+
+  let c = color('yellow');
+  fill(c);
   Sun.draw();
+
+  c = color("brown");
+  fill(c);
+  Mercury.draw();
+
+  c = color('blue');
+  fill(c);
+  Earth.draw();
+
+  c = color('red');
+  fill(c);
+  Mars.draw();
 
   print(`Days: ${t / 86140}`);
   t += delta_t;
